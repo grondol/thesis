@@ -1,8 +1,10 @@
 require "prawn"
+require "rexml/document"
 Prawn::Font::AFM.hide_m17n_warning = true
 
 # **************************************
 # here I set parameters for the target document
+
 $leftmargin = 0
 $rightmargin = 0
 $topmargin = 0
@@ -16,6 +18,18 @@ $headline_chapter_upper_space = 20
 $headline_chapter_indent = 1
 
 # **************************************
+
+$config_file = "config.xml"
+params = {}
+
+def read_config #will read all document parametres from config.xml
+  File.open($config_file, "r") do |file|
+    doc = REXML::Document.new(file)
+    doc.root.elements.each do |element|
+      params[element.name.strip] = element.text.strip
+    end
+  end
+end
 
 #takes in a hash with styling and a text string
 def print_out(style, input)
@@ -55,5 +69,5 @@ Prawn::Document.generate("hello.pdf", :margin => [$topmargin,$rightmargin,$botto
 =end
   headline_chapter("This is a chapter headline") 
   headline_chapter("Second chapter") 
-  
+  p params
 end
