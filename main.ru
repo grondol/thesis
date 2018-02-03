@@ -2,33 +2,28 @@ require "prawn"
 require "rexml/document"
 Prawn::Font::AFM.hide_m17n_warning = true
 
-# **************************************
-# here I set parameters for the target document
-
-$leftmargin = 0
-$rightmargin = 0
-$topmargin = 0
-$bottommargin = 0
-
-$headline_chapter_counting_from = 0
-$headline_chapter_text_size = 15
-$headline_chapter_font = "Helvetica"
-$headline_chapter_font_style = :bold
-$headline_chapter_upper_space = 20
-$headline_chapter_indent = 1
-
-# **************************************
-
-$config_file = "config.xml"
-params = {}
-
 def read_config #will read all document parametres from config.xml
+  params = {}
   File.open($config_file, "r") do |file|
     doc = REXML::Document.new(file)
     doc.root.elements.each do |element|
       params[element.name.strip] = element.text.strip
     end
   end
+  return params
+end
+
+def set_params(params)
+  $leftmargin = params["leftmargin"].to_i
+  $rightmargin = params["rightmargin"].to_i
+  $topmargin = params["topmargin"].to_i
+  $bottommargin = params["bottommargin"].to_i
+  $headline_chapter_counting_from = params["headline_chapter_counting_from"].to_i
+  $headline_chapter_text_size = params["headline_chapter_text_size"].to_i
+  $headline_chapter_font = params["headline_chapter_font"]
+  $headline_chapter_font_style = :bold
+  $headline_chapter_upper_space = params["headline_chapter_upper_space"].to_i
+  $headline_chapter_indent = params["headline_chapter_indent"].to_i
 end
 
 #takes in a hash with styling and a text string
@@ -56,6 +51,12 @@ def bulletpoint(input)
   
 end
 
+# ************ main instructions *************
+
+$config_file = "config.xml"
+params = read_config
+set_params(params)
+
 Prawn::Document.generate("hello.pdf", :margin => [$topmargin,$rightmargin,$bottommargin,$leftmargin]) do
   text "Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,"
 =begin  
@@ -69,5 +70,4 @@ Prawn::Document.generate("hello.pdf", :margin => [$topmargin,$rightmargin,$botto
 =end
   headline_chapter("This is a chapter headline") 
   headline_chapter("Second chapter") 
-  p params
 end
