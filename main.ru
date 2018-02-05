@@ -13,6 +13,19 @@ def read_config #will read all document parametres from config.xml
   return params
 end
 
+# returns ordered array, first comes the format flag, second is the content
+def read_source
+  source = []
+  File.open($source_file, "r") do |file|
+    doc = REXML::Document.new(file)
+    doc.root.elements.each do |element|
+      source << [element.name.strip, element.text.strip]
+    end
+  end
+  return source
+end  
+  
+
 def set_params(params)
   $leftmargin = params["leftmargin"].to_i
   $rightmargin = params["rightmargin"].to_i
@@ -48,19 +61,21 @@ end
 
 # creates a bulletpoint with a sign in front (no number)
 def bulletpoint(input)
-  
 end
 
 # ************ main instructions *************
 
 $config_file = "config.xml"
+$source_file = "source.xml"
 params = read_config
+source = read_source
 set_params(params)
 
 
 Prawn::Document.generate("hello.pdf", :margin => [$topmargin,$rightmargin,$bottommargin,$leftmargin]) do
-  load("source.ru")
+  source.each do |element|
+    send(element[0], element[1]) #runs method in string element[0]
+  end
 end
 
-puts "ffff"
 

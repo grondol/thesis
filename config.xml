@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<data>
+  <leftmargin>
+    0
+  </leftmargin>
+  <rightmargin>
+    0
+  </rightmargin>
+  <topmargin>
+    0
+  </topmargin>
+  <bottommargin>
+    0
+  </bottommargin>
+  <headline_chapter_counting_from>
+    0
+  </headline_chapter_counting_from>
+  <headline_chapter_text_size>
+    15
+  </headline_chapter_text_size>
+  <headline_chapter_font>
+    Helvetica
+  </headline_chapter_font>
+  <headline_chapter_font_style>
+    bold
+  </headline_chapter_font_style>
+  <headline_chapter_upper_space>
+    20
+  </headline_chapter_upper_space>
+  <headline_chapter_indent>
+    1
+  </headline_chapter_indent>
+</data>
