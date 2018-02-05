@@ -57,17 +57,10 @@ $config_file = "config.xml"
 params = read_config
 set_params(params)
 
+
 Prawn::Document.generate("hello.pdf", :margin => [$topmargin,$rightmargin,$bottommargin,$leftmargin]) do
-  text "Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,Hello World!,"
-=begin  
-  ["Courier", "Helvetica", "Times-Roman"].each do |example_font|
-    move_down 20
-    [:bold, :bold_italic, :italic, :normal].each do |style|
-      font example_font, :style => style
-      text "I'm writing in #{example_font} (#{style})"
-    end
-  end
-=end
-  headline_chapter("This is a chapter headline") 
-  headline_chapter("Second chapter") 
+  load("source.ru")
 end
+
+puts "ffff"
+
